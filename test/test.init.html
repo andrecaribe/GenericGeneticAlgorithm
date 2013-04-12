@@ -1,0 +1,19 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Mocha Tests</title>
+    <link rel="stylesheet" href="mocha/mocha.css" />
+</head>
+<body>
+    <div id="mocha"></div>
+    <script type="text/javascript" src="../GenericAlgorithmGenetic.js"></script>
+    <script type="text/javascript" src="chai/chai.js"></script>
+    <script type="text/javascript" src="mocha/mocha.js"></script>
+    <script>mocha.setup('bdd')</script>
+    <script type="text/javascript" src="test.init.js"></script>
+    <script type="text/javascript">
+        mocha.checkLeaks();
+        mocha.run();
+    </script>
+</body>
+</html>

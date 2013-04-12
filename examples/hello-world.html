@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="robots" content="noindex" />
+		<title>Simple - Generic Algorithm Genetic</title>
+
+		<script type="text/javascript" src="../GenericAlgorithmGenetic.js"></script>
+        <script type="text/javascript">
+
+        function loaded() {
+
+            var settings = {
+
+                chromosome: [
+                                { minValue: 3, maxValue: 20, gene: 'STR' },
+                                { minValue: 3, maxValue: 20, gene: 'DEX' },
+                                { minValue: 3, maxValue: 20, gene: 'CON' },
+                                { minValue: 3, maxValue: 20, gene: 'INT' },
+                                { minValue: 3, maxValue: 20, gene: 'WIS' },
+                                { minValue: 3, maxValue: 20, gene: 'CAR' }
+                            ],
+
+                fitness: function(individual) {
+                    var str = Number(individual.chromosome[0].value) * 0.8,
+                        dex = Number(individual.chromosome[1].value) * 0.9,
+                        con = Number(individual.chromosome[2].value) * 0.9,
+                        int = Number(individual.chromosome[3].value) * 0.8,
+                        wis = Number(individual.chromosome[4].value) * 0.7,
+                        car = Number(individual.chromosome[5].value) * 0.5,
+                        weight = 0.8 + 0.9 + 0.9 + 0.8 + 0.7 + 0.5;
+
+                    individual.fitness = (str + dex + int + wis + con + car)/weight;
+                }
+            }
+
+            var gag = new GenericAlgorithmGenetic();
+            gag.init(settings);
+            gag.initialize();
+            gag.generate(function(population, info){
+                console.log(population);
+                console.log(info.message);
+                console.log(info.time);
+            });
+        }
+
+        </script>
+	</head>
+	<body onLoad="loaded()">
+		<p>See log output.</p>
+	</body>
+</html>

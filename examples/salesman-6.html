@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="robots" content="noindex" />
+
+		<title>Salesman-6 Example</title>
+
+        <style type="text/css">
+            #board {border:1px solid #000000;}
+            #code { width: 100%; height:400px; }
+        </style>
+
+		<script type="text/javascript" src="../GenericAlgorithmGenetic.js"></script>
+        <script type="text/javascript">
+        var mapScale = 20;
+        var points=[{x:0,y:0},{x:10,y:10},{x:6,y:6},{x:5,y:6},{x:3,y:3},{x:7,y:2}];
+        /*var points=[{x:20,y:56},{x:45,y:100},{x:138,y:189},{x:209,y:277},{x:248,y:100},{x:39,y:124},{x:200,y:130},{x:70,y:280},{x:138,y:86},{x:73,y:212},{x:245,y:213},{x:220,y:109},{x:274,y:254},{x:100,y:145},{x:33,y:204},{x:207,y:34},{x:163,y:176},{x:50,y:56},{x:138,y:43},{x:250,y:65}
+        ];*/
+
+        function loaded() {
+
+            var settings = {
+
+                better: 'minimization',
+                canRepeatGenes: false,
+                goalLimit: 0.99,
+                generationsLimitAfterGoal: 5,
+                timeLimit: 100,
+                generationsLimit: 30,
+                populationSize: 20,
+                populationMaxSize: 30,
+                mutationFactor: 0.1,
+
+                chromosome:[{value:0,gene:"point 1"},{value:1,gene:"point 2"},{value:2,gene:"point 3"},{value:3,gene:"point 4"},{value:4,gene:"point 5"},{value:5,gene:"point 6"}],
+                /*chromosome:[{value:0,gene:"point 1"},{value:1,gene:"point 2"},{value:2,gene:"point 3"},{value:3,gene:"point 4"},{value:4,gene:"point 5"},{value:5,gene:"point 6"},{value:6,gene:"point 7"},{value:7,gene:"point 8"},{value:8,gene:"point 9"},{value:9,gene:"point 10"},{value:10,gene:"point 11"},{value:11,gene:"point 12"},{value:12,gene:"point 13"},{value:13,gene:"point 14"},{value:14,gene:"point 15"},{value:15,gene:"point 16"},{value:16,gene:"point 17"},{value:17,gene:"point 18"},{value:18,gene:"point 19"},{value:19,gene:"point 20"}],*/
+
+                fitness: function(individual) {
+
+                    var distance = function(a, b) {
+                            var x = points[a].x - points[b].x,
+                                y = points[a].y - points[b].y;
+
+                            return Math.sqrt(x * x + y * y);
+                        },
+                        totalDistance = 0,
+                        i;
+
+                    for (i = 1; i < settings.chromosome.length; i++) {
+                        totalDistance += distance(individual.chromosome[i-1].value, individual.chromosome[i].value);
+                    }
+
+                    individual.fitness = totalDistance;
+                }
+            }
+
+            drawPoints();
+
+            gag = new GenericAlgorithmGenetic();
+            gag.init(settings);
+            gag.initialize();
+            gag.generate(function(population, info){
+                document.getElementById("distance").innerHTML = population[settings.populationSize-1].fitness
+                document.getElementById("message").innerHTML = info.message;
+                document.getElementById("timer").innerHTML = info.time;
+                drawPath(population[settings.populationSize-1].chromosome);
+
+            });
+        }
+
+        function drawPoints() {
+            var c = document.getElementById("board");
+            var ctx = c.getContext("2d");
+
+            for (var i = points.length - 1; i >= 0; i--) {
+                ctx.fillStyle = "#00A308";
+                ctx.beginPath();
+                ctx.arc(points[i].x * mapScale, points[i].y * mapScale, 5, 0, Math.PI*2, true); 
+                ctx.closePath();
+                ctx.fill();
+            };
+        }
+
+        function drawPath(solution){
+            var c = document.getElementById("board");
+            var ctx = c.getContext("2d");
+
+            ctx.moveTo(points[solution[0].value].x * mapScale, points[solution[0].value].y * mapScale);
+            for (var i = 1; i < solution.length; i++) {
+                ctx.lineTo(points[solution[i].value].x * mapScale, points[solution[i].value].y * mapScale);
+            }
+            ctx.stroke();
+        }
+
+        </script>
+	</head>
+	<body onLoad="loaded()">
+        <h2>Salesman Problem</h2>
+<h3>Code</h3>
+        <textarea id="code">
+var mapScale = 20;
+var points=[{x:0,y:0},{x:10,y:10},{x:6,y:6},{x:5,y:6},{x:3,y:3},{x:7,y:2}];
+
+function loaded() {
+
+    var settings = {
+
+        better: 'minimization',
+        canRepeatGenes: false,
+        goalLimit: 0.99,
+        generationsLimitAfterGoal: 5,
+        timeLimit: 100,
+        generationsLimit: 30,
+        populationSize: 20,
+        populationMaxSize: 30,
+        mutationFactor: 0.1,
+
+        chromosome:[{value:0,gene:"point 1"},{value:1,gene:"point 2"},{value:2,gene:"point 3"},{value:3,gene:"point 4"},{value:4,gene:"point 5"},{value:5,gene:"point 6"}],
+
+        fitness: function(individual) {
+
+            var distance = function(a, b) {
+                    var x = points[a].x - points[b].x,
+                        y = points[a].y - points[b].y;
+
+                    return Math.sqrt(x * x + y * y);
+                },
+                totalDistance = 0,
+                i;
+
+            for (i = 1; i < settings.chromosome.length; i++) {
+                totalDistance += distance(individual.chromosome[i-1].value, individual.chromosome[i].value);
+            }
+
+            individual.fitness = totalDistance;
+        }
+    }
+
+    drawPoints();
+
+    gag = new GenericAlgorithmGenetic();
+    gag.init(settings);
+    gag.initialize();
+    gag.generate(function(population, info){
+        document.getElementById("distance").innerHTML = population[settings.populationSize-1].fitness
+        document.getElementById("message").innerHTML = info.message;
+        document.getElementById("timer").innerHTML = info.time;
+        drawPath(population[settings.populationSize-1].chromosome);
+
+    });
+}
+
+function drawPoints() {
+    var c = document.getElementById("board");
+    var ctx = c.getContext("2d");
+
+    for (var i = points.length - 1; i >= 0; i--) {
+        ctx.fillStyle = "#00A308";
+        ctx.beginPath();
+        ctx.arc(points[i].x * mapScale, points[i].y * mapScale, 5, 0, Math.PI*2, true); 
+        ctx.closePath();
+        ctx.fill();
+    };
+}
+
+function drawPath(solution){
+    var c = document.getElementById("board");
+    var ctx = c.getContext("2d");
+
+    ctx.moveTo(points[solution[0].value].x * mapScale, points[solution[0].value].y * mapScale);
+    for (var i = 1; i < solution.length; i++) {
+        ctx.lineTo(points[solution[i].value].x * mapScale, points[solution[i].value].y * mapScale);
+    }
+    ctx.stroke();
+}
+        </textarea>
+        <h3>Result</h3>
+        <p>Distance: <span id="distance"></span><br />
+        Message: <span id="message"></span><br />
+        Time: <span id="timer"></span><br />
+        Routes:</p>
+		<canvas id="board" width="300" height="300">You browser dont support canvas to visualize the points and route.</canvas>
+	</body>
+</html>
