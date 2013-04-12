@@ -4,7 +4,7 @@
 		<meta name="robots" content="noindex" />
 		<title>Simple - Generic Algorithm Genetic</title>
 
-		<script type="text/javascript" src="../GenericAlgorithmGenetic.js"></script>
+		<script type="text/javascript" src="../GenericGeneticAlgorithm.js"></script>
         <script type="text/javascript">
 
         function loaded() {
@@ -33,10 +33,10 @@
                 }
             }
 
-            var gag = new GenericAlgorithmGenetic();
-            gag.init(settings);
-            gag.initialize();
-            gag.generate(function(population, info){
+            var gga = new GenericGeneticAlgorithm();
+            gga.init(settings);
+            gga.initialize();
+            gga.generate(function(population, info){
                 console.log(population);
                 console.log(info.message);
                 console.log(info.time);

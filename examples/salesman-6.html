@@ -10,7 +10,7 @@
             #code { width: 100%; height:400px; }
         </style>
 
-		<script type="text/javascript" src="../GenericAlgorithmGenetic.js"></script>
+		<script type="text/javascript" src="../GenericGeneticAlgorithm.js"></script>
         <script type="text/javascript">
         var mapScale = 20;
         var points=[{x:0,y:0},{x:10,y:10},{x:6,y:6},{x:5,y:6},{x:3,y:3},{x:7,y:2}];
@@ -55,10 +55,10 @@
 
             drawPoints();
 
-            gag = new GenericAlgorithmGenetic();
-            gag.init(settings);
-            gag.initialize();
-            gag.generate(function(population, info){
+            gga = new GenericGeneticAlgorithm();
+            gga.init(settings);
+            gga.initialize();
+            gga.generate(function(population, info){
                 document.getElementById("distance").innerHTML = population[settings.populationSize-1].fitness
                 document.getElementById("message").innerHTML = info.message;
                 document.getElementById("timer").innerHTML = info.time;
@@ -137,10 +137,10 @@ function loaded() {
 
     drawPoints();
 
-    gag = new GenericAlgorithmGenetic();
-    gag.init(settings);
-    gag.initialize();
-    gag.generate(function(population, info){
+    gga = new GenericGeneticAlgorithm();
+    gga.init(settings);
+    gga.initialize();
+    gga.generate(function(population, info){
         document.getElementById("distance").innerHTML = population[settings.populationSize-1].fitness
         document.getElementById("message").innerHTML = info.message;
         document.getElementById("timer").innerHTML = info.time;

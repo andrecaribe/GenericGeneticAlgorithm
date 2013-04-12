@@ -27,7 +27,7 @@ var assert = chai.assert,
 describe('Settings', function() {
 
     it('should be not undefined', function() {
-        var gag = new GenericAlgorithmGenetic();
-        assert(gag !== undefined, "Genetic Algorithms Generic was instanciate with success.");
+        var gga = new GenericGeneticAlgorithm();
+        assert(gga !== undefined, "Genetic Algorithms Generic was instanciate with success.");
     });
 });
