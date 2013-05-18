@@ -9,8 +9,11 @@
     <script type="text/javascript" src="../GenericGeneticAlgorithm.js"></script>
     <script type="text/javascript" src="chai/chai.js"></script>
     <script type="text/javascript" src="mocha/mocha.js"></script>
-    <script>mocha.setup('bdd')</script>
-    <script type="text/javascript" src="test.init.js"></script>
+    <script>
+        mocha.setup('bdd');
+        expect = chai.expect;
+    </script>
+    <script type="text/javascript" src="test.js"></script>
     <script type="text/javascript">
         mocha.checkLeaks();
         mocha.run();

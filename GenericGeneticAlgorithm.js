@@ -1,4 +1,4 @@
-/*jslint forin: true, plusplus: true, todo: true */
+/*jslint forin: true, todo: true */
 var GenericGeneticAlgorithm = function() {
 
     "use strict";
@@ -141,11 +141,11 @@ var GenericGeneticAlgorithm = function() {
                     }
                 };
 
-            for (i = population.length - 1; i >= 0; i--) {
+            for (i = population.length - 1; i >= 0; i -= 1) {
                 totalFitness += getAdjustedFitness(population[i].fitness, false);
             }
 
-            for (i = population.length-1; i >= 0 ; i--) {
+            for (i = population.length-1; i >= 0 ; i -= 1) {
                 cumulativeExpectation += getAdjustedFitness(population[i].fitness, false) / totalFitness * selectionSize;
                 while (cumulativeExpectation > startOffset + index) {
                     breeders.push(population[i]);
@@ -243,7 +243,7 @@ var GenericGeneticAlgorithm = function() {
 
             if (options.canRepeatGenes === true) {
 
-                for (index = 0; index < options.chromosome.length; index++) {
+                for (index = 0; index < options.chromosome.length; index += 1) {
                     if (index <= crossPoint) {
                         childrens[0].chromosome.push({gene: individuals[0].chromosome[index].gene, value: individuals[0].chromosome[index].value});
                         childrens[1].chromosome.push({gene: individuals[1].chromosome[index].gene, value: individuals[1].chromosome[index].value});
@@ -257,7 +257,7 @@ var GenericGeneticAlgorithm = function() {
                     noSelectedGenForChild2 = individuals[1].chromosome.slice(),
                     randomIndex;
 
-                for (index = 0; index < options.chromosome.length; index++) {
+                for (index = 0; index < options.chromosome.length; index += 1) {
 
                     if (index <= crossPoint) {
                         childrens[0].chromosome.push({gene: noSelectedGenForChild1[0].gene, value: noSelectedGenForChild1[0].value});
@@ -338,7 +338,7 @@ var GenericGeneticAlgorithm = function() {
                 index,
                 geneValue;
 
-            for (i = 0; i < options.chromosome.length; i++) {
+            for (i = 0; i < options.chromosome.length; i += 1) {
                 if (Math.random() <= options.mutationFactor) {
                     if (options.canRepeatGenes === true) {
                         geneValue = randomRangeNumber(options.chromosome[i].minValue, options.chromosome[i].maxValue, 0);
@@ -391,7 +391,7 @@ var GenericGeneticAlgorithm = function() {
 
             if (options.canRepeatGenes === true) {
 
-                for (i = 0; i < options.chromosome.length; i++) {
+                for (i = 0; i < options.chromosome.length; i += 1) {
                     geneValue = randomRangeNumber(options.chromosome[i].minValue, options.chromosome[i].maxValue, 0);
                     chain.push({gene: options.chromosome[i].gene, value: geneValue});
                 }
@@ -417,7 +417,7 @@ var GenericGeneticAlgorithm = function() {
         initializePopulation = function(onComplete) {
             var i;
 
-            for (i = 0; i < options.populationSize; i++) {
+            for (i = 0; i < options.populationSize; i += 1) {
                 population.push(createIndividual());
             }
 
@@ -447,8 +447,8 @@ var GenericGeneticAlgorithm = function() {
                 selectBreeders();
                 
                 // Crossover
-                for (var i = breeders.length - 1; i >= 0; i-=2) {
-                    crossbreedResult = crossbreed({dad:breeders[i], mom:breeders[i-1]});
+                for (var i = breeders.length - 1; i >= 0; i -= 2) {
+                    crossbreedResult = crossbreed({dad:breeders[i], mom:breeders[i - 1]});
 
                     selectMutation(crossbreedResult[2]);
                     selectMutation(crossbreedResult[3]);
@@ -523,7 +523,19 @@ var GenericGeneticAlgorithm = function() {
          * ...
          */
         kill: function(individuals, onComplete) {
-            // TODO: remove some individuals from population
+            var index;
+
+            for (var i = 0; i < individuals.length; i += 1) {
+                index = population.indexOf(individuals[i]);
+                if (index !== -1) {
+                    console.log(population[index].fitness);
+                    population.splice(index, 1);
+                }
+            }
+
+            if (onComplete !== undefined) {
+                onComplete();
+            }
         }
 
     };
